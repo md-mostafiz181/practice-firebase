@@ -42,7 +42,7 @@ const Header = () => {
             {navLinks}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">Firebase</a>
+        <a className="btn btn-ghost text-xl">Login and SignOut</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>

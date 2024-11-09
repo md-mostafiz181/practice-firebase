@@ -12,6 +12,7 @@ import Root from './layout/Root';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import Email_Pass from './components/Email_Pass/Email_Pass';
+import SignUp from './components/SignUp/SignUp';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/email_pass",
         element: <Email_Pass></Email_Pass>
+      },
+      {
+        path:"/signUp",
+        element:<SignUp></SignUp>
       }
     ]
   },
