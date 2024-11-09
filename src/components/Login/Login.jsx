@@ -1,37 +1,50 @@
-
-import { getAuth, signInWithPopup, signOut } from "firebase/auth";
+import { getAuth, GithubAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import app from "../../firebase/firebase.init";
 import { useState } from "react";
+
 
 const Login = () => {
   const [user, setUser] = useState(null);
 
   const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+  const GoogleProvider = new GoogleAuthProvider();
+  const GithubProvider = new GithubAuthProvider();
 
   const handleGoogleLogin = () => {
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth, GoogleProvider)
       .then((result) => {
         const loggedUser = result.user;
         setUser(loggedUser);
-        console.log(loggedUser)
+        console.log(loggedUser);
       })
       .catch((error) => {
         console.log("error", error.message);
       });
   };
 
-  const handleGoogleSignOut =()=>{
-    signOut(auth)
-    .then((result)=>{
-        setUser(null)
-        console.log(result)
+  const handleGithubLogin = ()=>{
+    signInWithPopup(auth,GithubProvider)
+    .then(result =>{
+        const loggedUser = result.user
+        setUser(loggedUser)
     })
     .catch((error)=>{
-        console.log("error", error.massage)
+        console.log("error", error.message)
     })
+    
   }
+
+  const handleGoogleSignOut = () => {
+    signOut(auth)
+      .then((result) => {
+        setUser(null);
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log("error", error.massage);
+      });
+  };
   return (
     <div>
       <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -68,53 +81,54 @@ const Login = () => {
                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-            <button 
-              
+            <button
               type="submit"
               className="w-full bg-blue-500 text-white py-3 rounded-md font-medium text-lg hover:bg-blue-600 transition-colors duration-200"
             >
-             Login
+              Login
             </button>
             <div className="divider">OR</div>
-            {
-                user ? <button 
+            {user ? (
+              <button
                 onClick={handleGoogleSignOut}
                 type="submit"
                 className="w-full bg-blue-500 text-white py-3 rounded-md font-medium text-lg hover:bg-blue-600 transition-colors duration-200"
               >
-               Log Out
-              </button>: <button 
-              onClick={handleGoogleLogin}
-              type="submit"
-              className="w-full bg-blue-500 text-white py-3 rounded-md font-medium text-lg hover:bg-blue-600 transition-colors duration-200"
-            >
-             Google Login
-            </button>
-            }
-            
-            
+                Log Out
+              </button>
+            ) : (
+              <div>
+                <button
+                  onClick={handleGoogleLogin}
+                  type="submit"
+                  className="w-full bg-blue-500 text-white py-3 rounded-md font-medium text-lg hover:bg-blue-600 transition-colors duration-200"
+                >
+                  Google Login
+                </button>
+                <div className="divider">OR</div>
+                <button
+                  onClick={handleGithubLogin}
+                  type="submit"
+                  className="w-full bg-blue-500 text-white py-3 rounded-md font-medium text-lg hover:bg-blue-600 transition-colors duration-200"
+                >
+                  Github Login
+                </button>
+              </div>
+            )}
           </form>
-          
-          
-
         </div>
 
-        {
-            user && <div className="card card-compact bg-base-100 w-96 ms-3 shadow-xl">
+        {user && (
+          <div className="card card-compact bg-base-100 w-96 ms-3 shadow-xl">
             <figure>
-              <img
-                src={user ?.photoURL
-                }
-                alt="Shoes"
-              />
+              <img src={user?.photoURL} alt="Shoes" />
             </figure>
             <div className="card-body">
               <h2 className="card-title">User Name : {user.displayName}</h2>
               <p>Email : {user.email}</p>
-
             </div>
           </div>
-        }
+        )}
       </div>
     </div>
   );
