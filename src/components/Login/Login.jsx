@@ -49,7 +49,7 @@ const Login = () => {
     <div>
       <div className="flex items-center justify-center h-screen bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full text-center">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-700">Login</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-gray-700">Login google and github</h2>
           <form>
             <div className="mb-4 text-left">
               <label

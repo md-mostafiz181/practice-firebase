@@ -11,6 +11,7 @@ import {
 import Root from './layout/Root';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
+import Email_Pass from './components/Email_Pass/Email_Pass';
 
 const router = createBrowserRouter([
   {
@@ -22,8 +23,12 @@ const router = createBrowserRouter([
         element: <Home></Home>
       },
       {
-        path: "/login",
+        path: "/g_g",
         element:<Login></Login>
+      },
+      {
+        path: "/email_pass",
+        element: <Email_Pass></Email_Pass>
       }
     ]
   },
