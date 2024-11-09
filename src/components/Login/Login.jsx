@@ -1,5 +1,5 @@
 import { FcGoogle } from "react-icons/fc";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import app from "../../firebase/firebase.init";
 
@@ -10,7 +10,14 @@ const Login = () => {
     const provider = new GoogleAuthProvider()
 
     const handleGoogleLogin = () =>{
-        console.log("google login button clicked")
+        signInWithPopup(auth, provider)
+        .then(result=>{
+            const user = result.user;
+            console.log(user)
+        })
+        .catch(error =>{
+            console.log("error", error.massage)
+        })
     }
     return (
         <div>
