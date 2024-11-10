@@ -1,9 +1,40 @@
+import {  getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Email_Pass = () => {
 
-  const handleLogin = ()=>{
-    console.log("login btn clicked")
+  const [loginError, setLoginError]=useState(" ");
+  const [success,setSuccess]=useState(" ")
+
+
+  
+ 
+
+  const handleLogin = e =>{
+    
+
+    e.preventDefault()
+    const email =e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email,password)
+
+    setLoginError("");
+     setSuccess("");
+
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth,email,password)
+    .then(result=>{
+      console.log(result.user)
+      setSuccess("User Login successful")
+    })
+    .catch(error=>{
+      console.log(error)
+      setLoginError("Your password is wrong")
+    })
+    
   }
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -50,6 +81,8 @@ const Email_Pass = () => {
           />
         </form>
 
+
+
         <Link to="/signUp">
           <p className="text-sm text-center text-gray-500">
             Don’t have an account?{" "}
@@ -58,6 +91,18 @@ const Email_Pass = () => {
             </a>
           </p>
         </Link>
+
+        <div className="text-2xl text-green-700">
+          {
+            success && <p>{success}</p>
+          }
+        </div>
+
+        <div className="text-2xl text-red-700">
+          {
+            loginError && <p>{loginError}</p>
+          }
+        </div>
       </div>
     </div>
   );
