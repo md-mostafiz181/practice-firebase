@@ -1,8 +1,11 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 
 const SignUp = () => {
+
+  const [registerError, setRegisterError]=useState(" ")
 
     const auth = getAuth();
     const handleRegister = (e)=>{
@@ -10,13 +13,14 @@ const SignUp = () => {
         const name = e.target.name.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
+        console.log(name,email,password)
         
         createUserWithEmailAndPassword(auth,email,password)
         .then(result=>{
             console.log(result.user)
         })
         .catch(error=>{
-            console.error(error)
+            setRegisterError(error)
         })
 
         
@@ -63,10 +67,16 @@ const SignUp = () => {
           
         </form>
 
+
+
         <Link to="/email_pass">
         <p className="text-sm text-center text-gray-500">
           Don’t have an account? <a href="#" className="text-blue-500 hover:underline">SingIn</a>
         </p></Link>
+
+        {
+          registerError && <p className="text-red-600">{registerError.message}</p>
+        }
       </div>
     </div>
         </div>
