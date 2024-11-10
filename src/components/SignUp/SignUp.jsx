@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 
 const SignUp = () => {
 
-  const [registerError, setRegisterError]=useState(" ")
+  const [registerError, setRegisterError]=useState(" ");
+  const [success, setSuccess]= useState(" ")
 
     const auth = getAuth();
     const handleRegister = (e)=>{
@@ -14,10 +15,25 @@ const SignUp = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         console.log(name,email,password)
+
+        console.log(typeof password)
+
+        
+        setRegisterError("");
+        setSuccess("")
+
+        if(password.length < 6){
+          setRegisterError("Password at least 6 characters or longer")
+          return;
+        }
+
+
+
         
         createUserWithEmailAndPassword(auth,email,password)
         .then(result=>{
             console.log(result.user)
+            setSuccess("User created successfully")
         })
         .catch(error=>{
             setRegisterError(error)
@@ -49,6 +65,7 @@ const SignUp = () => {
               id="email"
               className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border rounded-md focus:border-blue-500 focus:outline-none focus:ring"
               placeholder="Enter your email"
+              required
             />
           </div>
 
@@ -59,6 +76,7 @@ const SignUp = () => {
               id="password"
               className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border rounded-md focus:border-blue-500 focus:outline-none focus:ring"
               placeholder="Enter your password"
+              required
             />
           </div>
 
@@ -75,7 +93,11 @@ const SignUp = () => {
         </p></Link>
 
         {
-          registerError && <p className="text-red-600">{registerError.message}</p>
+          registerError && <p className="text-red-600">{registerError}</p>
+        }
+
+        {
+          success && <p className="text-green-700">{success}</p>
         }
       </div>
     </div>
