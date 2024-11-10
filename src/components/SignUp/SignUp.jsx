@@ -1,22 +1,26 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaRegEye } from "react-icons/fa6";
+import { FaRegEyeSlash } from "react-icons/fa6";
+
 
 
 const SignUp = () => {
 
   const [registerError, setRegisterError]=useState(" ");
-  const [success, setSuccess]= useState(" ")
+  const [success, setSuccess]= useState(" ");
+  const [showPassword, setShowPassword]= useState(false)
 
     const auth = getAuth();
     const handleRegister = (e)=>{
         e.preventDefault()
-        const name = e.target.name.value;
+        
         const email = e.target.email.value;
         const password = e.target.password.value;
-        console.log(name,email,password)
+        console.log(email,password)
 
-        console.log(typeof password)
+
 
         
         setRegisterError("");
@@ -24,6 +28,9 @@ const SignUp = () => {
 
         if(password.length < 6){
           setRegisterError("Password at least 6 characters or longer")
+          return;
+        }else if(!/[A-Z]/.test(password)){
+          setRegisterError("Use at least one uppercase")
           return;
         }
 
@@ -49,15 +56,7 @@ const SignUp = () => {
         <h2 className="text-2xl font-bold text-center text-gray-700">Email and Password SignUp</h2>
         
         <form className="space-y-4" onSubmit={handleRegister}>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-600">Name</label>
-            <input
-              type="text"
-              id="name"
-              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border rounded-md focus:border-blue-500 focus:outline-none focus:ring"
-              placeholder="Enter your Name"
-            />
-          </div>
+
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
             <input
@@ -72,12 +71,19 @@ const SignUp = () => {
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-600">Password</label>
             <input
-              type="password"
+              type={showPassword ? "text":"password"}
               id="password"
               className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border rounded-md focus:border-blue-500 focus:outline-none focus:ring"
               placeholder="Enter your password"
+              
               required
+              
             />
+            <span onClick={()=>setShowPassword(!showPassword)}>
+              {
+                showPassword ? <FaRegEyeSlash></FaRegEyeSlash> : <FaRegEye></FaRegEye>
+              }
+            </span>
           </div>
 
           <input className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600" type="submit" value="SignUp" />
