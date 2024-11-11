@@ -1,13 +1,12 @@
-import {  getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
-
-import { useState } from "react";
+import {  getAuth, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Email_Pass = () => {
 
   const [loginError, setLoginError]=useState(" ");
   const [success,setSuccess]=useState(" ")
+  const emailRef =useRef(null)
 
 
   
@@ -36,6 +35,29 @@ const Email_Pass = () => {
     })
     
   }
+
+  const handleResetPassword = ()=>{
+    const email = emailRef.current.value;
+    console.log("please provide your email",emailRef.current.value)
+    if(!email){
+      setLoginError("pleaser provide your email")
+      return;
+    }else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)){
+      setLoginError("please provide a write email")
+      return;
+    }
+
+    const auth = getAuth();
+    sendPasswordResetEmail(auth,email)
+    .then(()=>{
+        alert("please check your email")
+    })
+    .catch(error=>{
+      console.log(error.message)
+    })
+  }
+
+
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
@@ -54,6 +76,7 @@ const Email_Pass = () => {
             <input
               type="email"
               id="email"
+              ref={emailRef}
               className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border rounded-md focus:border-blue-500 focus:outline-none focus:ring"
               placeholder="Enter your email"
             />
@@ -69,10 +92,17 @@ const Email_Pass = () => {
             <input
               type="password"
               id="password"
+             
               className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border rounded-md focus:border-blue-500 focus:outline-none focus:ring"
               placeholder="Enter your password"
             />
+
+          <label onClick={handleResetPassword} className="label text-2xl font-bold">
+            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+          </label>
           </div>
+
+          
 
           <input
             className=" w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
@@ -80,6 +110,8 @@ const Email_Pass = () => {
             value="Login"
           />
         </form>
+
+        
 
 
 

@@ -41,14 +41,14 @@ const SignUp = () => {
 
 
 
-        
+        const auth = getAuth();
         createUserWithEmailAndPassword(auth,email,password)
         .then(result=>{
             console.log(result.user)
             setSuccess("User created successfully")
         })
         .catch(error=>{
-            setRegisterError(error)
+            setRegisterError(error.message)
         })
 
         
@@ -86,7 +86,7 @@ const SignUp = () => {
             />
             <span className="absolute mt-5 -ms-8" onClick={()=>setShowPassword(!showPassword)}>
               {
-                showPassword ? <FaRegEyeSlash></FaRegEyeSlash> : <FaRegEye></FaRegEye>
+                showPassword ?  <FaRegEye></FaRegEye> :  <FaRegEyeSlash></FaRegEyeSlash>
               }
             </span>
           </div>
